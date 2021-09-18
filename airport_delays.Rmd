@@ -1,0 +1,513 @@
+---
+title: "Airport Delays Data Analysis"
+output: html_notebook
+---
+
+The data was downloaded from CORGIS Dataset Project: <a href="https://think.cs.vt.edu/corgis/csv/airlines/">Original Dataset</a>
+
+This dataset is all about flights in the united states, including information about the number, length, and type of delays between 2003-2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
+
+## Attributes: 
+- Airport.Code: The 3 letter code for this airport, assigned by IATA. 
+- Airport.Name:	The full name of this airport.
+- Time.Label: The "year/month" reported as a string, to make it easier to sort by time periods.	
+- Time.Month: The reported month as a number. 0 is January, 1 is February, etc.	
+- Time.Month Name: Name of Month
+- Time.Year: The reported year as a 4-digit number.	
+- Statistics.# of Delays.Carrier: The number of delays and cancellations due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.) in this month.	
+- Statistics.# of Delays.Late Aircraft: The number of delays and cancellations caused by a previous flight with the same aircraft arriving late, causing the present flight to depart late in this month.	
+- Statistics.# of Delays.National Aviation System	Integer	The number of delays and cancellations attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control in this month.
+- Statistics.# of Delays.Security	Integer	Number of delays or cancellations caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas in this month.	17
+- Statistics.# of Delays.Weather	Integer	Number of delays or cancellations caused by significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane in this month.	328
+- Statistics.Carriers.Names: The full names of the carriers that reported in.	
+- Statistics.Carriers.Total	Integer	The number of carriers that reported flight information during this time period and at this location.	11
+- Statistics.Flights.Cancelled:	The number of flights that were cancelled in this month.	
+- Statistics.Flights.Delayed:	The number of flights that were delayed in this month.
+- Statistics.Flights.Diverted:	The number of flights that were diverted in this month.	
+- Statistics.Flights.On Time:	The number of flights that were on time in this month.	
+- Statistics.Flights.Total: The total number of flights in this month.	
+- Statistics.Minutes Delayed.Carrier: The number of minutes delayed due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.) in this month.
+- Statistics.Minutes Delayed.Late Aircraft	Integer	The number of minutes delayed caused by a previous flight with the same aircraft arriving late, causing the present flight to depart late in this month.
+Statistics.Minutes Delayed.National Aviation System: The number of minutes delayed attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control in this month.
+- Statistics.Minutes Delayed.Security: Number of minutes delayed caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas in this month.
+- Statistics.Minutes Delayed.Total
+- Statistics.Minutes Delayed.Weather:	Number of of minutes delayed caused by significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane in this month.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(gghighlight)
+
+#Importing the csv file to a books Data Frame
+delays <- read.csv("airlines.csv")
+
+#Viewing the Data Frame
+head(delays)
+```
+### Missing Values
+```{r}
+#Identifying total number of missing values
+sum(is.na(delays))
+```
+There are no missing values in the data.
+```{r}
+#Identifying the column names
+colnames(delays)
+```
+As there are quite a few columns it might be helpful to look at a some some subsets of the data.
+
+We can look at three subsets specifically:
+
+- Number of Flights Delayed Overall
+- Number of Flights Delayed by Reason
+- Duration of Flight Delay
+
+```{r}
+#Creating a character vector named flights in which we are storing column names
+flights <- c("Airport.Code","Airport.Name","Time.Month","Time.Month.Name","Time.Year","Statistics.Flights.Cancelled","Statistics.Flights.Delayed","Statistics.Flights.Diverted","Statistics.Flights.On.Time","Statistics.Flights.Total")
+
+#Creating a data frame with information on number of delays
+delays_flights <-delays[flights]
+
+#Creating a character vector named flights in which we are storing column names
+reason <- c("Airport.Code","Airport.Name","Time.Month","Time.Month.Name","Time.Year", "Statistics...of.Delays.Carrier","Statistics...of.Delays.Late.Aircraft", "Statistics...of.Delays.National.Aviation.System","Statistics...of.Delays.Security","Statistics...of.Delays.Weather")
+
+#Creating a data frame with information on number of delays due to different reasons
+delays_reason <-delays[reason]
+
+#Creating a character vector named duration in which we are storing column names
+duration <- c("Airport.Code","Airport.Name","Time.Month","Time.Month.Name","Time.Year","Statistics.Minutes.Delayed.Carrier","Statistics.Minutes.Delayed.Late.Aircraft","Statistics.Minutes.Delayed.National.Aviation.System","Statistics.Minutes.Delayed.Security","Statistics.Minutes.Delayed.Total","Statistics.Minutes.Delayed.Weather")
+
+#Creating a data frame with information on duration of delays
+delays_duration <-delays[duration]
+
+```
+
+# Flight Data: Number of Flights Delayed Overall
+## Average Flights per Month 
+The average percentage of flights cancelled, delayed, diverted and on time between 2003-2016.
+```{r}
+#Average number of delayed flights per month since 2003
+avg_flights_cancelled <- sum(delays_flights$Statistics.Flights.Cancelled)
+
+#Average number of delayed flights per month since 2003
+avg_flights_delayed <- sum(delays_flights$Statistics.Flights.Delayed)
+
+#Average number of diverted flights per month since 2003
+avg_flights_diverted <- sum(delays_flights$Statistics.Flights.Diverted)
+
+#Average number of flights on time per month since 2003
+avg_flights_on_time <- sum(delays_flights$Statistics.Flights.On.Time)
+
+#Creating a Pie Chart 
+flights_values = c(avg_flights_cancelled,avg_flights_delayed,avg_flights_diverted,avg_flights_on_time )
+flights_labels = c("Cancelled","Delayed","Diverted","On Time")
+
+#Calculating the percent each will be of the total
+piepercent<- round(100*flights_values/sum(flights_values), 1)
+
+# Plot the chart.
+pie(flights_values, labels = piepercent, main = "Distribution of Flights per Month between 2003-2016",col = rainbow(length(flights_values)))
+legend("topright", flights_labels, cex = 0.8,fill = rainbow(length(flights_values)))
+
+```
+On average, <b>77.8%</b> of flights were On Time each month and <b>20.2%</b> of flights were Delayed.
+
+## Average Flights per Month by Month of Year
+The average percentage of flights cancelled, delayed, diverted and on time per month between 2003-2016.
+```{r}
+ 
+#Grouping by month
+month <- delays_flights %>% group_by(Time.Month)
+
+#Creating a data frame to store the summarized values of flights cancelled each year
+delays_flights_month <- month %>% summarise(Statistics.Flights.Cancelled = mean(Statistics.Flights.Cancelled))
+
+#Renaming the columns
+colnames(delays_flights_month)[which(names(delays_flights_month) == "Time.Month")] <- "Month"
+colnames(delays_flights_month)[which(names(delays_flights_month) == "Statistics.Flights.Cancelled")] <- "Cancelled"
+
+#Summarizing by number of flights delayed each year
+month_delayed <- month %>% summarise(Statistics.Flights.Delayed = mean(Statistics.Flights.Delayed))
+
+#Adding the column to delays_flights_month
+delays_flights_month$Delayed <-month_delayed$Statistics.Flights.Delayed
+
+#Summarizing by number of flights delayed
+month_delayed <- month %>% summarise(Statistics.Flights.Delayed = mean(Statistics.Flights.Delayed))
+delays_flights_month$Delayed <-month_delayed$Statistics.Flights.Delayed
+
+#Summarizing by number of flights diverted
+month_diverted <- month %>% summarise(Statistics.Flights.Diverted = mean(Statistics.Flights.Diverted))
+delays_flights_month$Diverted <-month_diverted$Statistics.Flights.Diverted
+
+#Summarizing by number of flights on time
+month_on_time <- month %>% summarise(Statistics.Flights.On.Time = mean(Statistics.Flights.On.Time))
+delays_flights_month$On_Time <-month_on_time$Statistics.Flights.On.Time
+
+#Creating a column to display percentage of flights that were on time, on average
+delays_flights_month$Percent_On_Time <-100*delays_flights_month$On_Time/(delays_flights_month$On_Time+delays_flights_month$Diverted+delays_flights_month$Delayed+delays_flights_month$Cancelled)
+
+#Display averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_flights_month) 
+```
+```{r}
+#Identifying month with the greatest percent of flights on time, on overage
+round(delays_flights_month[which.max(delays_flights_month$Percent_On_Time),])
+```
+```{r}
+#Identifying year with the least percent of flights on time, on overage
+round(delays_flights_month[which.min(delays_flights_month$Percent_On_Time),])
+```
+On average, flights were on time each month the most in <b>September</b> and they were on time the least in <b>December.</b>
+
+## Average Flights per Month by Year
+The average number of flights cancelled, delayed, diverted and on time per month, each year between 2003-2016.
+
+```{r}
+ 
+#Grouping by year
+year <- delays_flights %>% group_by(Time.Year)
+
+#Creating a data frame to store the summarized values of flights cancelled each year
+delays_flights_year <- year %>% summarise(Statistics.Flights.Cancelled = mean(Statistics.Flights.Cancelled))
+
+#Renaming the columns
+colnames(delays_flights_year)[which(names(delays_flights_year) == "Time.Year")] <- "Year"
+colnames(delays_flights_year)[which(names(delays_flights_year) == "Statistics.Flights.Cancelled")] <- "Cancelled"
+
+#Summarizing by number of flights delayed each year
+year_delayed <- year %>% summarise(Statistics.Flights.Delayed = mean(Statistics.Flights.Delayed))
+
+#Adding the column to delays_flights_year
+delays_flights_year$Delayed <-year_delayed$Statistics.Flights.Delayed
+
+#Summarizing by number of flights delayed each year
+year_delayed <- year %>% summarise(Statistics.Flights.Delayed = mean(Statistics.Flights.Delayed))
+delays_flights_year$Delayed <-year_delayed$Statistics.Flights.Delayed
+
+#Summarizing by number of flights diverted each year
+year_diverted <- year %>% summarise(Statistics.Flights.Diverted = mean(Statistics.Flights.Diverted))
+delays_flights_year$Diverted <-year_diverted$Statistics.Flights.Diverted
+
+#Summarizing by number of flights on time each year
+year_on_time <- year %>% summarise(Statistics.Flights.On.Time = mean(Statistics.Flights.On.Time))
+delays_flights_year$On_Time <-year_on_time$Statistics.Flights.On.Time
+
+#Creating a column to display percentage of flights that were on time each year, on average
+delays_flights_year$Percent_On_Time <-100*delays_flights_year$On_Time/(delays_flights_year$On_Time+delays_flights_year$Diverted+delays_flights_year$Delayed+delays_flights_year$Cancelled)
+
+#Display yearly averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_flights_year) 
+```
+
+```{r}
+#Identifying year with the greatest percent of flights on time, on overage
+round(delays_flights_year[which.max(delays_flights_year$Percent_On_Time),])
+```
+
+```{r}
+#Identifying year with the least percent of flights on time, on overage
+round(delays_flights_year[which.min(delays_flights_year$Percent_On_Time),])
+```
+
+On average, flights were on time each month the most in <b>2012</b> and they were on time the least in <b>2007.</b>
+
+# Delay Reason
+## Average Number Flights Delayed per Month by Reason
+The average percentage of flights delayed because of carrier, aircraft, national aviation system, security and weather delays between 2003-2016.
+```{r}
+
+#Average number of flights per month since 2003 delayed because of carriers
+avg_flights_carriers <- sum(delays_reason$Statistics...of.Delays.Carrier)
+
+#Average number of flights per month since 2003 delayed because of late arriving aircraft
+avg_flights_aircraft <- sum(delays_reason$Statistics...of.Delays.Late.Aircraft)
+
+#Average number of flights per month since 2003 delayed because of national aviation system
+avg_flights_nas <- sum(delays_reason$Statistics...of.Delays.National.Aviation.System)
+
+#Average number of flights per month since 2003 delayed because of security delays
+avg_flights_security <- sum(delays_reason$Statistics...of.Delays.Security)
+
+#Average number of flights per month since 2003 delayed because of weather
+avg_flights_weather <- sum(delays_reason$Statistics...of.Delays.Weather)
+
+#Creating a Pie Chart  
+reason_values = c(avg_flights_carriers,avg_flights_aircraft,avg_flights_nas, avg_flights_security, avg_flights_weather)
+reason_labels = c("Carrier","Late Aircraft","National Aviation System","Security","Weather")
+
+#Calculating the percent each will be of the total
+piepercent<- round(100*reason_values/sum(reason_values), 1)
+
+# Plot the chart.
+pie(reason_values, labels = piepercent, main = "Reasons for Flight Delay between 2003-2016",col = rainbow(length(reason_values)))
+legend("topright", reason_labels, cex = 0.7,fill = rainbow(length(reason_values)))
+
+```
+The three biggest reasons for flight delays are 
+
+- National Aviation System: <b>39.7%</b>
+- Late Aircraft: <b>32.8%</b>
+- Carrier: <b>23.9%</b>
+
+## Delay Reason by Month of Year
+```{r}
+#Grouping by month
+month <- delays_reason %>% group_by(Time.Month)
+
+#Creating a data frame to store the summarized values of flight delayed because of carriers
+delays_reason_month <- month %>% summarise(Statistics...of.Delays.Carrier = mean(Statistics...of.Delays.Carrier))
+
+#Renaming the columns
+colnames(delays_reason_month)[which(names(delays_reason_month) == "Time.Month")] <- "Month"
+colnames(delays_reason_month)[which(names(delays_reason_month) == "Statistics...of.Delays.Carrier")] <- "Carrier"
+
+#Summarizing by flights delayed because of late aircraft
+month_aircraft <- month %>% summarise(Statistics...of.Delays.Late.Aircraft = mean(Statistics...of.Delays.Late.Aircraft))
+
+#Adding the column to delays_flights_year
+delays_reason_month$Aircraft <-month_aircraft$Statistics...of.Delays.Late.Aircraft
+
+#Summarizing by flights delayed because of national aviation system
+month_nas <- month %>% summarise(Statistics...of.Delays.National.Aviation.System = mean(Statistics...of.Delays.National.Aviation.System))
+delays_reason_month$National_Aviation_System<-month_nas$Statistics...of.Delays.National.Aviation.System
+
+#Summarizing by flights delayed because of security
+month_security <- month %>% summarise(Statistics...of.Delays.Security = mean(Statistics...of.Delays.Security))
+delays_reason_month$Security<-month_security$Statistics...of.Delays.Security
+
+#Summarizing by flights delayed because of weather
+month_weather <- month %>% summarise(Statistics...of.Delays.Weather = mean(Statistics...of.Delays.Weather))
+delays_reason_month$Weather<-month_weather$Statistics...of.Delays.Weather
+
+#Display yearly averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_reason_month) 
+```
+
+```{r}
+#Identifying month with the greatest number of delays due to each reasons for delay
+round(delays_reason_month[which.max(delays_reason_month$National_Aviation_System),])
+round(delays_reason_month[which.max(delays_reason_month$Aircraft),])
+round(delays_reason_month[which.max(delays_reason_month$Carrier),])
+round(delays_reason_month[which.max(delays_reason_month$Weather),])
+round(delays_reason_month[which.max(delays_reason_month$Security),])
+```
+
+- <b>December</b> has the most delays happen due to the National Aviation System, Carrier and Security.
+- <b>July</b> has the most delays due to Aircraft.
+- <b>June</b> has the most delays due to Weather.
+
+## Delay Reason by Year
+```{r}
+#Grouping by year
+year <- delays_reason %>% group_by(Time.Year)
+
+#Creating a data frame to store the summarized values of flight delayed because of carriers
+delays_reason_year <- year %>% summarise(Statistics...of.Delays.Carrier = mean(Statistics...of.Delays.Carrier))
+
+#Renaming the columns
+colnames(delays_reason_year)[which(names(delays_reason_year) == "Time.Year")] <- "Year"
+colnames(delays_reason_year)[which(names(delays_reason_year) == "Statistics...of.Delays.Carrier")] <- "Carrier"
+
+#Summarizing by flights delayed because of late aircraft
+year_aircraft <- year %>% summarise(Statistics...of.Delays.Late.Aircraft = mean(Statistics...of.Delays.Late.Aircraft))
+
+#Adding the column to delays_flights_year
+delays_reason_year$Aircraft <-year_aircraft$Statistics...of.Delays.Late.Aircraft
+
+#Summarizing by flights delayed because of national aviation system
+year_nas <- year %>% summarise(Statistics...of.Delays.National.Aviation.System = mean(Statistics...of.Delays.National.Aviation.System))
+delays_reason_year$National_Aviation_System<-year_nas$Statistics...of.Delays.National.Aviation.System
+
+#Summarizing by flights delayed because of security
+year_security <- year %>% summarise(Statistics...of.Delays.Security = mean(Statistics...of.Delays.Security))
+delays_reason_year$Security<-year_security$Statistics...of.Delays.Security
+
+#Summarizing by flights delayed because of weather
+year_weather <- year %>% summarise(Statistics...of.Delays.Weather = mean(Statistics...of.Delays.Weather))
+delays_reason_year$Weather<-year_weather$Statistics...of.Delays.Weather
+
+#Display yearly averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_reason_year) 
+```
+```{r}
+#Identifying year with the greatest number of delays due to each reasons for delay
+round(delays_reason_year[which.max(delays_reason_month$National_Aviation_System),])
+round(delays_reason_year[which.max(delays_reason_month$Aircraft),])
+round(delays_reason_year[which.max(delays_reason_month$Carrier),])
+round(delays_reason_year[which.max(delays_reason_month$Weather),])
+round(delays_reason_year[which.max(delays_reason_month$Security),])
+```
+- <b>2014</b> has the most delays happen due to the National Aviation System, Carrier and Security.
+- <b>2009</b> has the most delays due to Aircraft.
+- <b>2008</b> has the most delays due to Weather.
+
+# Delay Duration 
+## Average Duration of Delay per Month by Reason
+The average duration of delay because of carrier, aircraft, national aviation system, security and weather delays between 2003-2016.
+```{r}
+
+#Average duration of delay per month since 2003 delayed because of carriers
+avg_flights_carriers <- mean(delays_duration$Statistics.Minutes.Delayed.Carrier)
+
+#Average duration of delay per month since 2003 delayed because of late arriving aircraft
+avg_flights_aircraft <- mean(delays_duration$Statistics.Minutes.Delayed.Late.Aircraft)
+
+#Average duration of delay per month since 2003 delayed because of national aviation system
+avg_flights_nas <- mean(delays_duration$Statistics.Minutes.Delayed.National.Aviation.System)
+
+#Average duration of delay per month since 2003 delayed because of security delays
+avg_flights_security <- mean(delays_duration$Statistics.Minutes.Delayed.Security)
+
+#Average duration of delay per month since 2003 delayed because of weather
+avg_flights_weather <- mean(delays_duration$Statistics.Minutes.Delayed.Weather)
+
+#Creating a Bar Plot with values displayed on top of bars
+duration_values = c(avg_flights_carriers,avg_flights_aircraft,avg_flights_nas, avg_flights_security, avg_flights_weather)
+duration_values = round(duration_values)
+duration_labels = c("Carrier","Late Aircraft","National Aviation System","Security","Weather")
+
+## Make the duration values numbers (rather than factors)
+duration_values <- as.numeric(as.character(duration_values))
+
+## Find a range of y's that will leave sufficient space above the tallest bar
+ylim <- c(0, 1.1*max(duration_values))
+
+## Plot, and store x-coordinates of bars in xx
+xx <- barplot(duration_values,main ="Average Duration of Delay per Month by Reason", col=rainbow(length(duration_values)), ylim = ylim)
+
+## Add text at top of bars
+text(x = xx, y = duration_values, label = duration_values, pos = 3, cex = 0.8, col = "red")
+
+## Add x-axis labels 
+axis(1, at=xx, labels=duration_labels, tick=FALSE, las=2, line=-0.5, cex.axis=0.5)
+```
+The longest delays were from three main sources:
+
+- Late Aircraft resulted in the longest delays, averaging a total of 49,410 minutes each month.
+- National Aviation System resulted in delays averaging a total of 45,077 minutes each month.
+- Carriers resulted in delays averaging a total of 35,021 minutes each month.
+
+## Delay Duration by Month of Year
+```{r}
+#Grouping by month
+month <- delays_duration %>% group_by(Time.Month)
+
+#Creating a data frame to store the summarized values of flight delayed because of carriers
+delays_duration_month <- month %>% summarise(Statistics.Minutes.Delayed.Carrier = mean(Statistics.Minutes.Delayed.Carrier))
+
+#Renaming the columns
+colnames(delays_duration_month)[which(names(delays_duration_month) == "Time.Month")] <- "Month"
+colnames(delays_duration_month)[which(names(delays_duration_month) == "Statistics.Minutes.Delayed.Carrier")] <- "Carrier"
+
+#Summarizing by flights delayed because of late aircraft
+month_aircraft <- month %>% summarise(Statistics.Minutes.Delayed.Late.Aircraft = mean(Statistics.Minutes.Delayed.Late.Aircraft))
+
+#Adding the column to delays_flights_year
+delays_duration_month$Aircraft <-month_aircraft$Statistics.Minutes.Delayed.Late.Aircraft
+
+#Summarizing by flights delayed because of national aviation system
+month_nas <- month %>% summarise(Statistics.Minutes.Delayed.National.Aviation.System=mean(Statistics.Minutes.Delayed.National.Aviation.System))
+delays_duration_month$National_Aviation_System<-month_nas$Statistics.Minutes.Delayed.National.Aviation.System
+
+#Summarizing by flights delayed because of security
+month_security <- month %>% summarise(Statistics.Minutes.Delayed.Security = mean(Statistics.Minutes.Delayed.Security))
+delays_duration_month$Security<-month_security$Statistics.Minutes.Delayed.Security
+
+#Summarizing by flights delayed because of weather
+month_weather <- month %>% summarise(Statistics.Minutes.Delayed.Weather = mean(Statistics.Minutes.Delayed.Weather))
+delays_duration_month$Weather<-month_weather$Statistics.Minutes.Delayed.Weather
+
+#Summarizing by total delay
+month_total <- month %>% summarise(Statistics.Minutes.Delayed.Total = mean(Statistics.Minutes.Delayed.Total))
+delays_duration_month$Total<-month_total$Statistics.Minutes.Delayed.Total
+
+#Display yearly averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_duration_month) 
+```
+```{r}
+#Identifying month with the greatest duration of delays due to each reason
+round(delays_duration_month[which.max(delays_duration_month$Total),])
+round(delays_duration_month[which.max(delays_duration_month$National_Aviation_System),])
+round(delays_duration_month[which.max(delays_duration_month$Aircraft),])
+round(delays_duration_month[which.max(delays_duration_month$Carrier),])
+round(delays_duration_month[which.max(delays_duration_month$Weather),])
+round(delays_duration_month[which.max(delays_duration_month$Security),])
+```
+Overall, <b>July</b> has the longest delays.
+
+- <b>June</b> has the longest delays due to the National Aviation System and Weather.
+- <b>July</b> has the longest delays due to Aircraft and Carrier.
+- <b>August</b> has the longest delays due to Security.
+
+## Delay Duration by Year
+```{r}
+#Grouping by year
+year <- delays_duration %>% group_by(Time.Year)
+
+#Creating a data frame to store the summarized values of flight delayed because of carriers
+delays_duration_year <- year %>% summarise(Statistics.Minutes.Delayed.Carrier = mean(Statistics.Minutes.Delayed.Carrier))
+
+#Renaming the columns
+colnames(delays_duration_year)[which(names(delays_duration_year) == "Time.Year")] <- "Year"
+colnames(delays_duration_year)[which(names(delays_duration_year) == "Statistics.Minutes.Delayed.Carrier")] <- "Carrier"
+
+#Summarizing by flights delayed because of late aircraft
+year_aircraft <- year%>% summarise(Statistics.Minutes.Delayed.Late.Aircraft = mean(Statistics.Minutes.Delayed.Late.Aircraft))
+delays_duration_year$Aircraft <-year_aircraft$Statistics.Minutes.Delayed.Late.Aircraft
+
+#Summarizing by flights delayed because of national aviation system
+year_nas <- year %>% summarise(Statistics.Minutes.Delayed.National.Aviation.System=mean(Statistics.Minutes.Delayed.National.Aviation.System))
+delays_duration_year$National_Aviation_System<-year_nas$Statistics.Minutes.Delayed.National.Aviation.System
+
+#Summarizing by flights delayed because of security
+year_security <- year %>% summarise(Statistics.Minutes.Delayed.Security = mean(Statistics.Minutes.Delayed.Security))
+delays_duration_year$Security<-year_security$Statistics.Minutes.Delayed.Security
+
+#Summarizing by flights delayed because of weather
+year_weather <- year %>% summarise(Statistics.Minutes.Delayed.Weather = mean(Statistics.Minutes.Delayed.Weather))
+delays_duration_year$Weather<-year_weather$Statistics.Minutes.Delayed.Weather
+
+#Summarizing by total delay
+year_total <- year %>% summarise(Statistics.Minutes.Delayed.Total = mean(Statistics.Minutes.Delayed.Total))
+delays_duration_year$Total<-year_total$Statistics.Minutes.Delayed.Total
+
+#Display yearly averages for numbers of flights cancelled, delayed, diverted and on time
+round(delays_duration_year) 
+```
+```{r}
+#Identifying year with the greatest duration of delays due to each reason
+round(delays_duration_year[which.max(delays_duration_year$Total),])
+round(delays_duration_year[which.max(delays_duration_year$National_Aviation_System),])
+round(delays_duration_year[which.max(delays_duration_year$Aircraft),])
+round(delays_duration_year[which.max(delays_duration_year$Carrier),])
+round(delays_duration_year[which.max(delays_duration_year$Weather),])
+round(delays_duration_year[which.max(delays_duration_year$Security),])
+```
+Overall, <b>2007</b> has the longest delays.
+
+- <b>2007</b> has the longest delays due to the National Aviation System, Aircraft, Carrier and Weather.
+- <b>2006</b> has the longest delays due to Security.
+
+# Summary of Data Analysis
+
+On average, <b>77.8%</b> of flights were On Time each month and <b>20.2%</b> of flights were Delayed.
+
+The three biggest reasons for flight delays are: 
+
+- National Aviation System accounts for <b>39.7%</b> of all delays, averaging a total of 45,077 minutes each month.
+- Late Aircraft accounts for <b>32.8%</b> of all delays, averaging a total of 49,410 minutes each month, which is the <b>longest</b> delay.
+- Carrier accounts for <b>23.9%</b> of all delays, averaging a total of 35,021 minutes each month.
+
+The most delays occur in the month of <b>December</b>, which can be accounted towards the National Aviation System, Carrier and Security.   
+
+The longest delays occur in the month of <b>July</b>, which can be accounted towards the Aircraft and Carrier.
+
+The most delays occur in the year <b>2007.</b>
+
+- These delays can be accounted towards the National Aviation System, Aircraft, Carrier and Weather.
+- This is also the year with the longest delays overall. 
+
+
+
