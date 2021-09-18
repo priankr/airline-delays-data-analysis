@@ -1,6 +1,8 @@
 # airline-delays-data-analysis
 Analysis of airline delays dataset from the CORGIS Dataset Project: https://think.cs.vt.edu/corgis/csv/airlines/
 
+See this analysis in Kaggle: https://www.kaggle.com/priankravichandar/airport-delays-data-analysis
+
 This dataset is all about flights in the united states, including information about the number, length, and type of delays between 2003-2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
 
 ## Attributes
