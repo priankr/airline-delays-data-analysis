@@ -1,8 +1,6 @@
 # airline-delays-data-analysis
 Analysis of airline delays dataset from the CORGIS Dataset Project: https://think.cs.vt.edu/corgis/csv/airlines/
 
-See this analysis in Kaggle: https://www.kaggle.com/priankravichandar/airport-delays-data-analysis
-
 This dataset is all about flights in the united states, including information about the number, length, and type of delays between 2003-2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
 
 ## Attributes
@@ -31,4 +29,6 @@ Statistics.Minutes Delayed.National Aviation System: The number of minutes delay
 - Statistics.Minutes Delayed.Security: Number of minutes delayed caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas in this month.
 - Statistics.Minutes Delayed.Total
 - Statistics.Minutes Delayed.Weather:	Number of of minutes delayed caused by significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane in this month.
+
+See this analysis in Kaggle: https://www.kaggle.com/priankravichandar/airport-delays-data-analysis
 
