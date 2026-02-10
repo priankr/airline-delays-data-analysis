@@ -1,17 +1,12 @@
-# airline-delays-data-analysis
-Analysis of airline delays dataset from the CORGIS Dataset Project: https://think.cs.vt.edu/corgis/csv/airlines/
+# Summary of Data Analysis
 
-This dataset is all about flights in the united states, including information about the number, length, and type of delays between 2003-2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
-
-## Summary of Data Analysis
-
-### Dataset
+## Dataset
 
 The data was downloaded from CORGIS Dataset Project: [Original Dataset](https://think.cs.vt.edu/corgis/csv/airlines/)
 
 This dataset is all about flights in the United States, including information about the number, length, and type of delays between 2003 and 2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
 
-#### Attributes
+### Attributes
 
 - Airport.Code: The 3 letter code for this airport, assigned by IATA. 
 - Airport.Name:	The full name of this airport.
