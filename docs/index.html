@@ -386,25 +386,25 @@
                 datasets: [{
                     label: 'On-Time Rate',
                     data: [80.5, 79.8, 78.2, 76.8, 75.4, 76.2, 79.6, 81.3, 82.1, 84.1, 84.9, 82.7, 81.4, 81.2],
-                    borderColor: '#818cf8',
-                    backgroundColor: 'rgba(129, 140, 248, 0.15)',
+                    borderColor: '#fbbf24',
+                    backgroundColor: 'rgba(251, 191, 36, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
                     pointRadius: 5,
                     pointHoverRadius: 7,
-                    pointBackgroundColor: '#818cf8'
+                    pointBackgroundColor: '#fbbf24'
                 }, {
                     label: 'Delay Rate',
                     data: [17.5, 18.2, 19.8, 21.2, 22.6, 21.8, 18.4, 16.7, 15.9, 13.9, 13.1, 15.3, 16.6, 16.8],
-                    borderColor: '#f87171',
-                    backgroundColor: 'rgba(248, 113, 113, 0.15)',
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.15)',
                     borderWidth: 3,
                     fill: true,
                     tension: 0.4,
                     pointRadius: 5,
                     pointHoverRadius: 7,
-                    pointBackgroundColor: '#f87171'
+                    pointBackgroundColor: '#ef4444'
                 }]
             },
             options: {
@@ -522,11 +522,11 @@
                 datasets: [{
                     data: [38.2, 32.8, 21.6, 7.2, 0.2],
                     backgroundColor: [
-                        '#818cf8',
-                        '#a78bfa',
-                        '#f0abfc',
-                        '#67e8f9',
-                        '#6ee7b7'
+                        '#dc2626',
+                        '#ea580c',
+                        '#f59e0b',
+                        '#fbbf24',
+                        '#fcd34d'
                     ],
                     borderWidth: 2,
                     borderColor: '#27272a'
@@ -567,9 +567,9 @@
                     data: [84.8, 84.3, 83.9, 82.7, 82.1, 81.5, 80.8, 80.2, 79.8, 78.9, 77.2, 76.5, 75.8, 74.9, 73.8, 73.2, 72.1],
                     backgroundColor: function(context) {
                         const value = context.parsed.y;
-                        if (value >= 82) return '#6ee7b7';
-                        if (value >= 78) return '#fbbf24';
-                        return '#f87171';
+                        if (value >= 82) return '#fbbf24';
+                        if (value >= 78) return '#fb923c';
+                        return '#ef4444';
                     },
                     borderWidth: 0
                 }]
