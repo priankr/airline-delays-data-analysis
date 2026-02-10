@@ -1,0 +1,3 @@
+# Prevent manual JSON conflict resolution for notebooks.
+# In merges, keep the current branch version to avoid invalid notebook JSON.
+*.ipynb merge=ours
