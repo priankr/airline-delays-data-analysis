@@ -1,9 +1,12 @@
-# airline-delays-data-analysis
-Analysis of airline delays dataset from the CORGIS Dataset Project: https://think.cs.vt.edu/corgis/csv/airlines/
+# Summary of Data Analysis
 
-This dataset is all about flights in the united states, including information about the number, length, and type of delays between 2003-2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
+## Dataset
 
-## Attributes
+The data was downloaded from CORGIS Dataset Project: [Original Dataset](https://think.cs.vt.edu/corgis/csv/airlines/)
+
+This dataset is all about flights in the United States, including information about the number, length, and type of delays between 2003 and 2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
+
+### Attributes
 
 - Airport.Code: The 3 letter code for this airport, assigned by IATA. 
 - Airport.Name:	The full name of this airport.
@@ -32,4 +35,23 @@ Statistics.Minutes Delayed.National Aviation System: The number of minutes delay
 
 #### See this analysis in Kaggle: 
 https://www.kaggle.com/priankravichandar/airport-delays-data-analysis
+
+### Tools
+
+R
+
+## Insights
+
+On average, **77.8%** of flights were On Time each month and **20.2%** of flights were Delayed.
+
+The three biggest reasons for flight delays are:
+
+- National Aviation System accounts for **39.7%** of all delays, averaging a total of 45,077 minutes each month.
+- Late Aircraft accounts for **32.8%** of all delays, averaging a total of 49,410 minutes each month, which is the **longest** delay.
+- Carrier accounts for **23.9%** of all delays, averaging a total of 35,021 minutes each month.
+- The most delays occur in **December**, which can be accounted for by the National Aviation System, Carrier, and Security.
+- The longest delays occur in **July**, which can be accounted for by the Aircraft and Carrier.
+- The most delays occur in the year **2007.**
+    - These delays can be accounted for by the National Aviation System, Aircraft, Carrier, and Weather.
+    - This is also the year with the longest delays overall.
 
