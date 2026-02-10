@@ -2,13 +2,13 @@
 
 An in-depth analysis of 13 years of flight delay data from major U.S. airports, revealing patterns in airline performance, seasonal trends, delay causes, and airport-specific performance.
 
-## 🌐 Interactive Dashboard
+## Interactive Dashboard
 
-**[View the live interactive dashboard →](https://priankr.github.io/airline-delays-data-analysis/)**
+**[View the live interactive dashboard](https://priankr.github.io/airline-delays-data-analysis/)**
 
 Explore the data through interactive visualizations showing trends over time, seasonality heatmaps, delay cause breakdowns, and airport performance comparisons.
 
-## 📊 Key Findings
+## Key Findings
 
 ### Overall Performance
 - **77.8%** of flights departed on time (2003-2016 average)
@@ -37,7 +37,7 @@ Explore the data through interactive visualizations showing trends over time, se
 - **Worst airports**: 72-73% on-time (Newark, JFK, LaGuardia)
 - **12-15 percentage point difference** between best and worst
 
-## 📁 Repository Contents
+## Repository Contents
 
 ### Analysis Files
 - **`airline-delays-data-analysis.ipynb`** - Comprehensive Python analysis with visualizations, statistical modeling, and detailed insights
@@ -50,7 +50,7 @@ Explore the data through interactive visualizations showing trends over time, se
 ### Web Dashboard
 - **`docs/index.html`** - Interactive GitHub Pages dashboard with Chart.js visualizations
 
-## 🔍 Dataset Details
+## Dataset Details
 
 **Source**: Bureau of Transportation Statistics via [CORGIS Dataset Project](https://think.cs.vt.edu/corgis/csv/airlines/)
 
@@ -64,7 +64,7 @@ Explore the data through interactive visualizations showing trends over time, se
 - Delay causes (5 types with counts and total minutes)
 - Carrier information (names and count per airport)
 
-## 🛠️ Tools & Technologies
+## Tools & Technologies
 
 - **Python** - pandas, NumPy, scikit-learn, matplotlib, seaborn
 - **Jupyter Notebook** - Interactive analysis and documentation
@@ -72,7 +72,7 @@ Explore the data through interactive visualizations showing trends over time, se
 - **GitHub Pages** - Dashboard hosting
 - **R** (legacy) - Original 2021 analysis
 
-## 💡 Key Insights by Audience
+## Key Insights by Audience
 
 ### For Travelers
 - Book flights in September for lowest delay risk
@@ -92,7 +92,7 @@ Explore the data through interactive visualizations showing trends over time, se
 - 10-point improvement from 2007 to 2013 proves system can improve
 - Airport quality affects economic competitiveness
 
-## 🚀 Viewing the Analysis
+## Viewing the Analysis
 
 ### Option 1: Interactive Dashboard (Recommended)
 Visit the [live dashboard](https://priankr.github.io/airline-delays-data-analysis/) for an interactive experience with charts you can explore.
@@ -105,7 +105,7 @@ jupyter notebook airline-delays-data-analysis.ipynb
 ### Option 3: Local Dashboard
 Open `docs/index.html` in any modern web browser.
 
-## 📈 Analysis Highlights
+## Analysis Highlights
 
 The Python notebook includes:
 - Weighted metrics accounting for airport size
@@ -116,10 +116,10 @@ The Python notebook includes:
 - Predictive modeling with ElasticNet and HistGradientBoosting
 - Comprehensive visualizations and statistical insights
 
-## 📝 License & Attribution
+## License & Attribution
 
 Data provided by the Bureau of Transportation Statistics. Analysis and visualizations created for educational and informational purposes.
 
 ---
 
-**Questions or suggestions?** Open an issue or submit a pull request!
+**Questions or suggestions?** Open an issue or submit a pull request.
