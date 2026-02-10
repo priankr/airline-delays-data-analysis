@@ -1,57 +1,125 @@
-# Summary of Data Analysis
+# U.S. Airline Delays Analysis (2003-2016)
 
-## Dataset
+An in-depth analysis of 13 years of flight delay data from major U.S. airports, revealing patterns in airline performance, seasonal trends, delay causes, and airport-specific performance.
 
-The data was downloaded from CORGIS Dataset Project: [Original Dataset](https://think.cs.vt.edu/corgis/csv/airlines/)
+## 🌐 Interactive Dashboard
 
-This dataset is all about flights in the United States, including information about the number, length, and type of delays between 2003 and 2016. The data is reported for individual months at every major airport for every carrier. Additional information is available: http://www.rita.dot.gov/bts/help/aviation/html/understanding.html
+**[View the live interactive dashboard →](https://priankr.github.io/airline-delays-data-analysis/)**
 
-### Attributes
+Explore the data through interactive visualizations showing trends over time, seasonality heatmaps, delay cause breakdowns, and airport performance comparisons.
 
-- Airport.Code: The 3 letter code for this airport, assigned by IATA. 
-- Airport.Name:	The full name of this airport.
-- Time.Label: The "year/month" reported as a string, to make it easier to sort by time periods.	
-- Time.Month: The reported month as a number. 0 is January, 1 is February, etc.	
-- Time.Month Name: Name of Month
-- Time.Year: The reported year as a 4-digit number.	
-- Statistics.# of Delays.Carrier: The number of delays and cancellations due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.) in this month.	
-- Statistics.# of Delays.Late Aircraft: The number of delays and cancellations caused by a previous flight with the same aircraft arriving late, causing the present flight to depart late in this month.	
-- Statistics.# of Delays.National Aviation System	Integer	The number of delays and cancellations attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control in this month.
-- Statistics.# of Delays.Security	Integer	Number of delays or cancellations caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas in this month.	17
-- Statistics.# of Delays.Weather	Integer	Number of delays or cancellations caused by significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane in this month.	328
-- Statistics.Carriers.Names: The full names of the carriers that reported in.	
-- Statistics.Carriers.Total	Integer	The number of carriers that reported flight information during this time period and at this location.	11
-- Statistics.Flights.Cancelled:	The number of flights that were cancelled in this month.	
-- Statistics.Flights.Delayed:	The number of flights that were delayed in this month.
-- Statistics.Flights.Diverted:	The number of flights that were diverted in this month.	
-- Statistics.Flights.On Time:	The number of flights that were on time in this month.	
-- Statistics.Flights.Total: The total number of flights in this month.	
-- Statistics.Minutes Delayed.Carrier: The number of minutes delayed due to circumstances within the airline's control (e.g. maintenance or crew problems, aircraft cleaning, baggage loading, fueling, etc.) in this month.
-- Statistics.Minutes Delayed.Late Aircraft	Integer	The number of minutes delayed caused by a previous flight with the same aircraft arriving late, causing the present flight to depart late in this month.
-Statistics.Minutes Delayed.National Aviation System: The number of minutes delayed attributable to the national aviation system that refer to a broad set of conditions, such as non-extreme weather conditions, airport operations, heavy traffic volume, and air traffic control in this month.
-- Statistics.Minutes Delayed.Security: Number of minutes delayed caused by evacuation of a terminal or concourse, re-boarding of aircraft because of security breach, inoperative screening equipment and/or long lines in excess of 29 minutes at screening areas in this month.
-- Statistics.Minutes Delayed.Total
-- Statistics.Minutes Delayed.Weather:	Number of of minutes delayed caused by significant meteorological conditions (actual or forecasted) that, in the judgment of the carrier, delays or prevents the operation of a flight such as tornado, blizzard or hurricane in this month.
+## 📊 Key Findings
 
-#### See this analysis in Kaggle: 
-https://www.kaggle.com/priankravichandar/airport-delays-data-analysis
+### Overall Performance
+- **77.8%** of flights departed on time (2003-2016 average)
+- **20.2%** were delayed
+- **~2%** were cancelled or diverted
 
-### Tools
+### The Industry Improved Dramatically
+- **Worst year**: 2007-2008 (only 75% on-time during the financial crisis)
+- **Best year**: 2013 (85% on-time)
+- **10+ percentage point improvement** from 2007 to 2013 that held through 2016
 
-R
+### Seasonality Matters
+- **Best month to fly**: September (consistently lowest delays)
+- **Worst month**: December (holiday crowds + winter weather)
+- Pattern is remarkably consistent across all 14 years
 
-## Insights
+### Delay Causes (by frequency)
+1. **National Aviation System (NAS)**: 38.2% - Air traffic control, airport congestion
+2. **Late Aircraft**: 32.8% - Cascading delays from previous flights
+3. **Carrier**: 21.6% - Airline maintenance, crew issues
+4. **Weather**: 7.2% - Actual meteorological conditions
+5. **Security**: 0.2% - Terminal evacuations, security breaches
 
-On average, **77.8%** of flights were On Time each month and **20.2%** of flights were Delayed.
+### Airport Performance Gap
+- **Best airports**: 84-85% on-time (Phoenix, Salt Lake City, San Diego)
+- **Worst airports**: 72-73% on-time (Newark, JFK, LaGuardia)
+- **12-15 percentage point difference** between best and worst
 
-The three biggest reasons for flight delays are:
+## 📁 Repository Contents
 
-- National Aviation System accounts for **39.7%** of all delays, averaging a total of 45,077 minutes each month.
-- Late Aircraft accounts for **32.8%** of all delays, averaging a total of 49,410 minutes each month, which is the **longest** delay.
-- Carrier accounts for **23.9%** of all delays, averaging a total of 35,021 minutes each month.
-- The most delays occur in **December**, which can be accounted for by the National Aviation System, Carrier, and Security.
-- The longest delays occur in **July**, which can be accounted for by the Aircraft and Carrier.
-- The most delays occur in the year **2007.**
-    - These delays can be accounted for by the National Aviation System, Aircraft, Carrier, and Weather.
-    - This is also the year with the longest delays overall.
+### Analysis Files
+- **`airline-delays-data-analysis.ipynb`** - Comprehensive Python analysis with visualizations, statistical modeling, and detailed insights
+- **`airport_delays.Rmd`** - Original R Markdown analysis (2021)
+- **`ANALYSIS_IMPROVEMENT_SUGGESTIONS.md`** - Detailed recommendations for enhancing the analysis
 
+### Data
+- **`airlines.csv`** - 2MB dataset with monthly statistics from 30-50+ major U.S. airports (June 2003 - December 2016)
+
+### Web Dashboard
+- **`docs/index.html`** - Interactive GitHub Pages dashboard with Chart.js visualizations
+
+## 🔍 Dataset Details
+
+**Source**: Bureau of Transportation Statistics via [CORGIS Dataset Project](https://think.cs.vt.edu/corgis/csv/airlines/)
+
+**Coverage**:
+- Time period: June 2003 - December 2016 (162 months)
+- Airports: 30-50+ major U.S. airports per year
+- Structure: One record per airport per month
+
+**Key Metrics**:
+- Flight counts (on-time, delayed, cancelled, diverted, total)
+- Delay causes (5 types with counts and total minutes)
+- Carrier information (names and count per airport)
+
+## 🛠️ Tools & Technologies
+
+- **Python** - pandas, NumPy, scikit-learn, matplotlib, seaborn
+- **Jupyter Notebook** - Interactive analysis and documentation
+- **Chart.js** - Interactive web visualizations
+- **GitHub Pages** - Dashboard hosting
+- **R** (legacy) - Original 2021 analysis
+
+## 💡 Key Insights by Audience
+
+### For Travelers
+- Book flights in September for lowest delay risk
+- Avoid December if possible (holiday peak)
+- Choose connections through top-performing airports (PHX, SLC, SAN)
+- West Coast and Southwest airports generally more reliable
+
+### For Airlines
+- Late Aircraft delays create longest passenger disruptions (cascading effect)
+- Schedule padding and spare aircraft can break delay cascades
+- Carrier-controlled delays have improved over time (modernization works)
+- Best airports achieve 10-15 points better performance than average
+
+### For Policymakers
+- NAS delays (40% of all delays) indicate infrastructure underinvestment
+- Air traffic control modernization could address nearly half of all delays
+- 10-point improvement from 2007 to 2013 proves system can improve
+- Airport quality affects economic competitiveness
+
+## 🚀 Viewing the Analysis
+
+### Option 1: Interactive Dashboard (Recommended)
+Visit the [live dashboard](https://priankr.github.io/airline-delays-data-analysis/) for an interactive experience with charts you can explore.
+
+### Option 2: Jupyter Notebook
+```bash
+jupyter notebook airline-delays-data-analysis.ipynb
+```
+
+### Option 3: Local Dashboard
+Open `docs/index.html` in any modern web browser.
+
+## 📈 Analysis Highlights
+
+The Python notebook includes:
+- Weighted metrics accounting for airport size
+- Frequency vs. severity analysis
+- Airport-level performance profiles
+- Time-series trend analysis with seasonality
+- Delay cause composition over time
+- Predictive modeling with ElasticNet and HistGradientBoosting
+- Comprehensive visualizations and statistical insights
+
+## 📝 License & Attribution
+
+Data provided by the Bureau of Transportation Statistics. Analysis and visualizations created for educational and informational purposes.
+
+---
+
+**Questions or suggestions?** Open an issue or submit a pull request!
