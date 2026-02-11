@@ -52,7 +52,7 @@ Explore the data through interactive visualizations showing trends over time, se
 
 ## Dataset Details
 
-**Source**: Bureau of Transportation Statistics via [CORGIS Dataset Project](https://think.cs.vt.edu/corgis/csv/airlines/)
+**Source**: Bureau of Transportation Statistics | [Original Dataset (CSV)](https://github.com/priankr/airline-delays-data-analysis/blob/main/airlines.csv)
 
 **Coverage**:
 - Time period: June 2003 - December 2016 (162 months)
